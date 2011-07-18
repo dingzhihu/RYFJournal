@@ -1,12 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    >
-<TextView  
-    android:layout_width="fill_parent" 
-    android:layout_height="wrap_content" 
-    android:text="@string/hello"
-    />
-</LinearLayout>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="fill_parent" android:layout_height="fill_parent">
+	<RelativeLayout android:id="@+id/top_bar"
+		android:layout_height="50dp" android:layout_width="fill_parent"
+		android:background="#deebf7">
+
+		<TextView android:id="@+id/app_name" android:layout_width="wrap_content"
+			android:layout_height="wrap_content" android:layout_centerVertical="true"
+			android:layout_centerInParent="true" android:textSize="20sp"
+			android:textColor="#484848" android:text="@string/app_name" />
+	</RelativeLayout>
+	<FrameLayout android:id="@+id/main" android:layout_width="fill_parent"
+		android:layout_height="fill_parent" android:layout_below="@id/top_bar"
+		android:layout_above="@+id/bottom_bar" android:background="#f5f5d5">
+		<ListView android:id="@+id/blog_list" android:layout_width="fill_parent"
+			android:layout_height="fill_parent" />
+		<TextView android:id="@+id/empty_blog" android:layout_width="fill_parent"
+			android:layout_height="fill_parent" android:gravity="center_horizontal"
+			android:textSize="30sp" android:textColor="#000000"
+			android:visibility="gone" />
+	</FrameLayout>
+	<RelativeLayout android:id="@id/bottom_bar"
+		android:layout_width="fill_parent" android:layout_height="30dp"
+		android:layout_alignParentBottom="true" android:background="#deebf7"
+		android:visibility="visible">
+
+	</RelativeLayout>
+
+
+</RelativeLayout>
