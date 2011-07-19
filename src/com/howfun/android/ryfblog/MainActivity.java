@@ -5,10 +5,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.app.Activity;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.view.View;
 import android.view.Window;
+import android.widget.ProgressBar;
 
 public class MainActivity extends Activity {
 	
@@ -17,7 +20,7 @@ public class MainActivity extends Activity {
 			switch(msg.what){
 			case 1:
 				List<Blog> list = (List<Blog>)msg.obj;
-				Utils.showMessageDlg(MainActivity.this, ""+list.get(0).getContent());
+				Utils.showMessageDlg(MainActivity.this, ""+list.size());
 				break;
 			}
 		}
@@ -26,26 +29,39 @@ public class MainActivity extends Activity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.main);
-        new Thread(){
-        	public void run(){
-        		String s = "";
-        		List<Blog> blogs = new ArrayList<Blog>();
-        		InputStream in = null;
-        		try {
-					in = Utils.getXml(Utils.BLOG_URL);
-				} catch (Exception e) {
-					// TODO Auto-generated catch block
-					s = "connection error";
-					e.printStackTrace();
-				}
-				blogs = new BlogParser().getBlogs(in);
-				Message msg = new Message();
-				msg.what = 1;
-				msg.obj = blogs;
-				mHandler.sendMessage(msg);
-        	}
-        }.start();
+        ProgressBar progress = (ProgressBar) findViewById(R.id.progress);
+        progress.setVisibility(View.INVISIBLE);
+//        new Thread(){
+//        	public void run(){
+//        		String s = "";
+//        		List<Blog> blogs = new ArrayList<Blog>();
+//        		InputStream in = null;
+//        		try {
+//					in = Utils.getXml(Utils.BLOG_URL);
+//				} catch (Exception e) {
+//					// TODO Auto-generated catch block
+//					s = "connection error";
+//					e.printStackTrace();
+//				}
+//				blogs = new BlogParser().getBlogs(in);
+//				Message msg = new Message();
+//				msg.what = 1;
+//				msg.obj = blogs;
+//				mHandler.sendMessage(msg);
+//        	}
+//        }.start();
+    }
+    
+    class BlogTask extends AsyncTask<String, Integer, String>{
+
+      @Override
+      protected String doInBackground(String... params) {
+         // TODO Auto-generated method stub
+         return null;
+      }
+       
     }
 }
