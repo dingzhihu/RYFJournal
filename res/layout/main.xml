@@ -2,35 +2,50 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
 	android:layout_width="fill_parent" android:layout_height="fill_parent">
 	<RelativeLayout android:id="@+id/top_bar"
-		android:layout_height="80dp" android:layout_width="fill_parent"
+		android:layout_height="70dp" android:layout_width="fill_parent"
 		android:background="#deebf7">
 
 		<TextView android:id="@+id/app_name" android:layout_width="wrap_content"
 			android:layout_height="wrap_content" android:layout_centerVertical="true"
-			android:layout_centerInParent="true" android:textSize="20sp"
+			 android:textSize="20sp"
+			 android:paddingLeft="10dp"
 			android:textColor="#484848" android:text="@string/app_name" />
-			
+			<ImageView android:layout_width="1px"
+			android:layout_height="fill_parent"
+			android:background="@drawable/line"
+			android:layout_marginRight="20dp"
+			android:layout_toLeftOf="@+id/refresh"/>
 			<ProgressBar
 			android:id="@+id/progress"
         	android:layout_width="wrap_content"
         	android:layout_height="wrap_content"
-        	style="@android:style/Widget.ProgressBar.Inverse"
+        	style="@android:style/Widget.ProgressBar.Small.Inverse"
         	android:layout_centerInParent="true"
         	android:layout_alignParentRight="true"
-        	android:paddingRight="10dp"
+        	android:paddingRight="22dp"
+        	android:visibility="invisible"
         	/>
+        	<ImageView android:id="@id/refresh"
+        		android:layout_width="wrap_content"
+        		android:layout_height="wrap_content"
+        		android:src="@drawable/refresh"
+        		android:paddingRight="20dp"
+        		android:layout_alignParentRight="true"
+        		android:layout_centerInParent="true" />
 		
 	</RelativeLayout>
 	<FrameLayout android:id="@+id/main" android:layout_width="fill_parent"
 		android:layout_height="fill_parent" android:layout_below="@id/top_bar"
-		android:layout_above="@+id/bottom_bar" android:background="#f5f5d5">
+		android:layout_above="@+id/bottom_bar"   android:background="#f5f5d5">
 		
-		<ListView android:id="@+id/blog_list" android:layout_width="fill_parent"
-			android:layout_height="fill_parent" />
 		<TextView android:id="@+id/empty_blog" android:layout_width="fill_parent"
 			android:layout_height="fill_parent" android:gravity="center_horizontal"
 			android:textSize="30sp" android:textColor="#000000"
+			android:text="empty"
 			android:visibility="gone" />
+		<ListView android:id="@+id/blog_list" android:layout_width="fill_parent"
+			android:layout_height="fill_parent"/>
+		
 	</FrameLayout>
 	<RelativeLayout android:id="@id/bottom_bar"
 		android:layout_width="fill_parent" android:layout_height="30dp"

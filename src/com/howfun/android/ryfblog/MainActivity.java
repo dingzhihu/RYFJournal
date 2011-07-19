@@ -1,19 +1,32 @@
 package com.howfun.android.ryfblog;
 
 import java.io.InputStream;
-import java.util.ArrayList;
 import java.util.List;
 
 import android.app.Activity;
+import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.Window;
+import android.view.View.OnClickListener;
+import android.widget.ArrayAdapter;
+import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 public class MainActivity extends Activity {
+	
+	private DBAdapter mDbAdapter = null;
+	private ProgressBar mProgressBar = null;
+	private ImageView mRefreshView = null;
+	private ListView mListView = null;
+	private TextView mEmptyView = null;
 	
 	private Handler mHandler = new Handler(){
 		public void handleMessage(Message msg){
@@ -32,36 +45,132 @@ public class MainActivity extends Activity {
         requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.main);
-        ProgressBar progress = (ProgressBar) findViewById(R.id.progress);
-        progress.setVisibility(View.INVISIBLE);
-//        new Thread(){
-//        	public void run(){
-//        		String s = "";
-//        		List<Blog> blogs = new ArrayList<Blog>();
-//        		InputStream in = null;
-//        		try {
-//					in = Utils.getXml(Utils.BLOG_URL);
-//				} catch (Exception e) {
-//					// TODO Auto-generated catch block
-//					s = "connection error";
-//					e.printStackTrace();
-//				}
-//				blogs = new BlogParser().getBlogs(in);
-//				Message msg = new Message();
-//				msg.what = 1;
-//				msg.obj = blogs;
-//				mHandler.sendMessage(msg);
-//        	}
-//        }.start();
+        findViews();
+        setupListeners();
+        init();
     }
     
-    class BlogTask extends AsyncTask<String, Integer, String>{
+    private void findViews(){
+    	mProgressBar = (ProgressBar) findViewById(R.id.progress);
+    	mRefreshView = (ImageView) findViewById(R.id.refresh);
+    	mListView = (ListView) findViewById(R.id.blog_list);
+    	mEmptyView = (TextView) findViewById(R.id.empty_blog);
+    }
+    
+    private void setupListeners(){
+    	if(mRefreshView != null){
+    		mRefreshView.setOnClickListener(new OnClickListener() {
+				
+				@Override
+				public void onClick(View v) {
+					refresh();
+				}
+			});
+    	}
+    }
+    
+    private void init(){
+    	mDbAdapter = new DBAdapter(this);
+    	mDbAdapter.open();
+    	List<Blog> blogs = mDbAdapter.getAllBlogs();
+    	mDbAdapter.close();
+    	if(blogs != null && blogs.size()==0){
+    		mEmptyView.setVisibility(View.VISIBLE);
+    	}else{
+    		BlogAdapter adapter = new BlogAdapter(this, R.layout.blog_item, blogs);
+    		mListView.setAdapter(adapter);
+    	}
+    	
+    }
+    
+    private void refresh(){
+    	BlogTask task = new BlogTask();
+    	task.execute(Utils.BLOG_URL);
+    }
+    class BlogTask extends AsyncTask<String, Integer, InputStream>{
 
-      @Override
-      protected String doInBackground(String... params) {
-         // TODO Auto-generated method stub
-         return null;
-      }
+		@Override
+		protected InputStream doInBackground(String... params) {
+			InputStream in =null;
+			List<Blog> blogs= null;
+			try {
+				in = Utils.getXml(params[0]);
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+			
+			return in;
+		}
+		
+		@Override
+		protected void onPreExecute(){
+			mRefreshView.setVisibility(View.INVISIBLE);
+			mProgressBar.setVisibility(View.VISIBLE);
+		}
+		
+		@Override
+		protected void onPostExecute(InputStream in){
+			List<Blog> blogs = new BlogParser().getBlogs(in);
+			mProgressBar.setVisibility(View.INVISIBLE);
+			mRefreshView.setVisibility(View.VISIBLE);
+			System.out.println("size:"+blogs.size());
+			if(blogs.size() > 0){
+				mDbAdapter.open();
+				mDbAdapter.addBlogs(blogs);
+				mDbAdapter.close();
+				BlogAdapter adapter = new BlogAdapter(MainActivity.this, R.layout.blog_item, blogs);
+				mListView.setAdapter(adapter);
+			}
+			
+		}
+
        
     }
+    
+    class BlogAdapter extends ArrayAdapter<Blog> {
+    	   private LayoutInflater mInflater;
+    	   private Context mContext;
+    	   private int mResource;
+
+    	   public BlogAdapter(Context context, int resource, List<Blog> objects) {
+    	      super(context, resource, objects);
+    	      mContext = context;
+    	      mResource = resource;
+    	      mInflater = (LayoutInflater) context
+    	            .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+    	   }
+
+    	   @Override
+    	   public View getView(int position, View convertView, ViewGroup parent) {
+    	      ViewHolder holder;
+
+    	      Blog item = getItem(position);
+
+    	      if (convertView == null) {
+    	         convertView = mInflater.inflate(mResource, parent, false);
+    	         holder = new ViewHolder();
+    	         holder.title = (TextView) convertView.findViewById(R.id.title);
+    	         holder.published = (TextView) convertView.findViewById(R.id.published);
+    	         holder.summary = (TextView) convertView.findViewById(R.id.summary);
+    	         convertView.setTag(holder);
+    	      } else {
+    	         holder = (ViewHolder) convertView.getTag();
+    	      }
+
+    	      holder.title.setText(item.getTitle());
+    	      holder.published.setText(item.getPublished());
+    	      holder.summary.setText(item.getSummary());
+
+    	      return convertView;
+    	   }
+
+    	   private  class ViewHolder {
+    	      TextView title;
+    	      TextView published;
+    	      TextView summary;
+    	   }
+
+    	}
 }
