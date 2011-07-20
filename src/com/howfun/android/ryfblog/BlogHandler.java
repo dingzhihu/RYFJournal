@@ -8,7 +8,7 @@ import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
 public class BlogHandler extends DefaultHandler {
-	private static final int PUBLISHED_LEN = 16;
+	private static final int PUBLISHED_LEN = 10;
 
 	private StringBuilder mBuilder = new StringBuilder();
 	
@@ -44,7 +44,7 @@ public class BlogHandler extends DefaultHandler {
 	public void endElement(String namespaceURI, String localName, String qName)
 			throws SAXException {
 		if(localName.equals("entry")){
-			blog = new Blog(title, summary, getPublished(published), content);
+			blog = new Blog(title, summary, getPublished(published), getContent(content).trim());
 			mBlogList.add(blog);
 			title = "";
 			summary = "";
@@ -53,16 +53,16 @@ public class BlogHandler extends DefaultHandler {
 			blog = null;
 		}
 		if(localName.equals("title")){
-			title = mBuilder.toString();
+			title = mBuilder.toString().trim();
 		}
 		if(localName.equals("summary")){
-			summary = mBuilder.toString();
+			summary = mBuilder.toString().trim();
 		}
 		if(localName.equals("published")){
-			published = mBuilder.toString();
+			published = mBuilder.toString().trim();
 		}
 		if(localName.equals("content")){
-			content = mBuilder.toString();
+			content = mBuilder.toString().trim();
 		}
 		
 		mBuilder.setLength(0);
@@ -79,5 +79,17 @@ public class BlogHandler extends DefaultHandler {
 			published = str.substring(0, PUBLISHED_LEN);
 		}
 		return published;
+	}
+	
+	private String getContent(String str){
+	   String content = "";
+	   if(str != null){
+	      int index = 0;
+	      index = str.indexOf("<div");
+	      if(index != -1){
+	         content = str.substring(0, index);
+	      }
+	   }
+	   return content;
 	}
 }

@@ -1,6 +1,7 @@
 package com.howfun.android.ryfblog;
 
 import java.io.InputStream;
+import java.util.Iterator;
 import java.util.List;
 
 import android.app.Activity;
@@ -28,16 +29,6 @@ public class MainActivity extends Activity {
 	private ListView mListView = null;
 	private TextView mEmptyView = null;
 	
-	private Handler mHandler = new Handler(){
-		public void handleMessage(Message msg){
-			switch(msg.what){
-			case 1:
-				List<Blog> list = (List<Blog>)msg.obj;
-				Utils.showMessageDlg(MainActivity.this, ""+list.size());
-				break;
-			}
-		}
-	};
     /** Called when the activity is first created. */
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -87,21 +78,25 @@ public class MainActivity extends Activity {
     	BlogTask task = new BlogTask();
     	task.execute(Utils.BLOG_URL);
     }
-    class BlogTask extends AsyncTask<String, Integer, InputStream>{
+    class BlogTask extends AsyncTask<String, Integer, List<Blog>>{
 
 		@Override
-		protected InputStream doInBackground(String... params) {
+		protected List<Blog> doInBackground(String... params) {
 			InputStream in =null;
 			List<Blog> blogs= null;
 			try {
 				in = Utils.getXml(params[0]);
 			} catch (Exception e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+			blogs = new BlogParser().getBlogs(in);
+			Iterator<Blog> it = blogs.iterator();
+//			while(it.hasNext()){
+//			   System.out.println(it.next().getContent());
+//			}
+			System.out.println("========================"+blogs.get(0).getContent());
 			
-			
-			return in;
+			return blogs;
 		}
 		
 		@Override
@@ -111,18 +106,17 @@ public class MainActivity extends Activity {
 		}
 		
 		@Override
-		protected void onPostExecute(InputStream in){
-			List<Blog> blogs = new BlogParser().getBlogs(in);
+		protected void onPostExecute(List<Blog> blogs){
 			mProgressBar.setVisibility(View.INVISIBLE);
 			mRefreshView.setVisibility(View.VISIBLE);
-			System.out.println("size:"+blogs.size());
-			if(blogs.size() > 0){
-				mDbAdapter.open();
-				mDbAdapter.addBlogs(blogs);
-				mDbAdapter.close();
-				BlogAdapter adapter = new BlogAdapter(MainActivity.this, R.layout.blog_item, blogs);
-				mListView.setAdapter(adapter);
-			}
+			
+//			if(blogs.size() > 0){
+//				mDbAdapter.open();
+//				mDbAdapter.addBlogs(blogs);
+//				mDbAdapter.close();
+//				BlogAdapter adapter = new BlogAdapter(MainActivity.this, R.layout.blog_item, blogs);
+//				mListView.setAdapter(adapter);
+//			}
 			
 		}
 
