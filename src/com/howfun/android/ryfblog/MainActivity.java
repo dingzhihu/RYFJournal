@@ -11,6 +11,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -202,13 +203,21 @@ public class MainActivity extends Activity {
 
       if (!"".equals(lastUpdated)) {
          setInfo(getResources().getString(R.string.last_updated) + lastUpdated);
-      } 
+      }
       super.onResume();
    }
 
    @Override
-   public void onBackPressed() {
-      finishActivity();
+   public boolean onKeyDown(int keyCode, KeyEvent event) {
+      switch (keyCode) {
+      case KeyEvent.KEYCODE_BACK:
+         killTask();
+         cleanBuffer();
+      default:
+         break;
+      }
+
+      return super.onKeyDown(keyCode, event);
    }
 
    class BlogTask extends AsyncTask<String, Integer, List<Blog>> {
