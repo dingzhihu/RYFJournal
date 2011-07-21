@@ -1,5 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="hello">Hello World, MainActivity!</string>
     <string name="app_name">阮一峰的网络日志</string>
+    
+    <string name="menu_about">关于</string>
+    <string name="menu_exit">退出</string>
+    <string name="menu_pref">设置</string>
+    
+    <string name="pref">设置</string>
+	<string name="pref_list_count">显示日志数目</string>
+	<string name="pref_list_count_all">全部</string>   
+	<string name="pref_list_count_5">5</string>   
+	<string name="pref_list_count_10">10</string>   
+	<string name="pref_list_count_15">15</string>  
+	<string name="pref_clean_buffer">退出时清空缓存</string>  
+	<string name="pref_clean_buffer_yes">是</string>
+	<string name="pref_clean_buffer_no">否</string>
+	
+	<string name="ok">确定</string>
+	<string name="cancel">取消</string>
+	
+    <string name="last_updated">上次更新时间：</string>
+    <string name="num_updated">更新文章数：</string>
+    <string name="error_updated">更新失败，请确保网络连接</string>
+    <string name="updating">更新中。。。</string>
+    
+    <string name="empty_blog">还没有文章呢，刷新一下吧～</string>
+    <string name="about">阮一峰的网络日志\n\ndingzhihu1009@126.com\nherbert5069@yahoo.com.cn</string>
 </resources>

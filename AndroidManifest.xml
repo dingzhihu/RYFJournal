@@ -14,6 +14,8 @@
             </intent-filter>
         </activity>
 
+		<activity android:name=".BlogActivity" />
+		<activity android:name=".PrefActivity" />
     </application>
     <uses-permission android:name="android.permission.INTERNET" />
 </manifest>

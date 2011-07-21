@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+	<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+		android:orientation="vertical"
+		android:layout_width="fill_parent"
+		android:layout_height="fill_parent"
+		android:paddingLeft="6dip"
+    	android:paddingRight="6dip"
+		android:background="#f5f5d5">
+		
+		<TextView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/pref_list_count"
+        android:textSize="18sp"
+        android:textColor="@android:color/black" />
+        <RadioGroup
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+    >
+        <RadioButton android:id="@+id/radio_count_all"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/pref_list_count_all"
+            android:textColor="@android:color/black"
+        />
+        <RadioButton android:id="@+id/radio_count_5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/pref_list_count_5"
+            android:textColor="@android:color/black"
+        />
+        <RadioButton android:id="@+id/radio_count_10"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/pref_list_count_10"
+            android:textColor="@android:color/black"
+        />
+        <RadioButton android:id="@+id/radio_count_15"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/pref_list_count_15"
+            android:textColor="@android:color/black"
+        />
+    </RadioGroup>
+    
+    <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/pref_clean_buffer"
+        android:textSize="18sp"
+        android:textColor="@android:color/black" />
+        
+        <RadioGroup
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+   		 >
+        <RadioButton android:id="@+id/radio_clean_yes"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/pref_clean_buffer_yes"
+            android:textColor="@android:color/black"
+        />
+        <RadioButton android:id="@+id/radio_clean_no"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/pref_clean_buffer_no"
+            android:textColor="@android:color/black"
+        />
+       </RadioGroup>
+    
+    <LinearLayout
+    	
+        android:orientation="horizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:paddingTop="10dp"
+        
+    >
+        <Button android:id="@+id/pref_button_ok"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/ok"
+        />
+        <Button android:id="@+id/pref_button_cancel"
+        android:layout_marginLeft="20dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/cancel"
+        />
+    </LinearLayout>
+	</LinearLayout>

@@ -78,9 +78,9 @@ public class DBAdapter {
 		Cursor cur = null;
 
 		if (num == 0) { // query all
-			cur = mDb.query(TABLE_BLOGS, null, null, null, null, null, null);
+			cur = mDb.query(TABLE_BLOGS, null, null, null, null, null, KEY_PUBLISHED + " DESC");
 		} else {
-			String sql = "select * from " + TABLE_BLOGS + " limit "
+			String sql = "select * from " + TABLE_BLOGS + " order by "+KEY_PUBLISHED+" DESC limit "
 					+ String.valueOf(num);
 			cur = mDb.rawQuery(sql, null);
 		}

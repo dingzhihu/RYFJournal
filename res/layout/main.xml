@@ -36,15 +36,15 @@
 	</RelativeLayout>
 	<FrameLayout android:id="@+id/main" android:layout_width="fill_parent"
 		android:layout_height="fill_parent" android:layout_below="@id/top_bar"
-		android:layout_above="@+id/bottom_bar"   android:background="#f5f5d5">
+		android:layout_above="@+id/bottom_bar" android:background="#f5f5d5">
 		
 		<TextView android:id="@+id/empty_blog" android:layout_width="fill_parent"
 			android:layout_height="fill_parent" android:gravity="center_horizontal"
 			android:textSize="30sp" android:textColor="#000000"
-			android:text="empty"
+			android:text="@string/empty_blog"
 			android:visibility="gone" />
 		<ListView android:id="@+id/blog_list" android:layout_width="fill_parent"
-			android:layout_height="fill_parent"/>
+			android:layout_height="fill_parent" />
 		
 	</FrameLayout>
 	<RelativeLayout android:id="@id/bottom_bar"
@@ -52,6 +52,11 @@
 		android:layout_alignParentBottom="true" android:background="#deebf7"
 		android:visibility="visible">
 
+	<TextView android:id="@+id/info" android:layout_width="fill_parent"
+			android:layout_height="wrap_content" android:gravity="right"
+			android:textSize="18sp" android:textColor="#000000"
+			/>
+	
 	</RelativeLayout>
 
 
