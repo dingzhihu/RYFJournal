@@ -1,1 +1,1 @@
-Chinese blog of yifeng ruan(»Ó“ª∑Â)
+Chinese blog of yifeng ruan
